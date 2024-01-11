@@ -1,0 +1,141 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.occupied {
+  background-color: rgba(110, 19, 19, 0.536) !important;
+  color: white !important;
+}
+ul {
+  list-style: none;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.time-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+.time-block {
+  text-align: left;
+}
+.times-block {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.time {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+
+  &__item {
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    width: 75%;
+    transition: transform 0.2s ease-in-out;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150%;
+      height: 150%;
+      border-radius: 0 0 100px 0px;
+      background: radial-gradient(circle at top left, #fd623b, #feb47ba5);
+      transform: scale(0);
+      transform-origin: 0 0;
+      transition: transform 0.7s ease-out;
+      opacity: 0.2;
+    }
+    &:hover {
+      &::before {
+        transform: scale(1);
+      }
+      transform: scale(1.05);
+    }
+    &.active {
+      transition: 1s ease-in-out;
+      background: #e68a7297;
+    }
+  }
+}
+.react-calendar__navigation__label {
+  pointer-events: none;
+}
+.react-calendar {
+  border: 2px solid black;
+  border-radius: 10px;
+  &__navigation__next2-button {
+    display: none;
+  }
+  &__navigation__prev2-button {
+    display: none;
+  }
+  &__month-view__days__day {
+    padding: 15px;
+  }
+  &__month-view__days {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 10px;
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+  &__tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
