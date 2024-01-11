@@ -6,6 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import "./App.scss";
 import { times } from "./time";
 import { format } from "date-fns";
+import axios from "axios";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -23,6 +24,13 @@ function App() {
     currentDate.getMonth() + 2,
     0
   );
+
+  const testFunc = async () => {
+    const data = await axios.get(
+      "https://monya.pythonanywhere.com/front_api/reserved-days"
+    );
+    console.log(data);
+  };
 
   const selectTimeStart = (time) => {
     setSelectedTimeStart(time);
@@ -131,6 +139,7 @@ function App() {
       </div>
 
       <button onClick={sendDates}>Забронировать</button>
+      <button onClick={testFunc}>Тест</button>
     </>
   );
 }
