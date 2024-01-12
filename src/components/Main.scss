@@ -88,6 +88,9 @@ ul {
   border-radius: 10px;
   padding: 10px;
   width: 500px;
+  @include phone {
+    width: 100%;
+  }
   &__navigation__next2-button {
     display: none;
   }
@@ -104,7 +107,6 @@ ul {
     padding-left: 7px;
     color: grey;
     &__day {
-      height: 45px;
       border: 1px solid black !important;
       color: rgb(0, 0, 0) !important;
       transition: 0.2s ease-in-out;
@@ -114,6 +116,9 @@ ul {
         -webkit-box-shadow: 3px 5px 10px 0px rgba(56, 50, 56, 1);
         -moz-box-shadow: 3px 5px 10px 0px rgba(56, 50, 56, 1);
         box-shadow: 3px 5px 10px 0px rgba(56, 50, 56, 1);
+      }
+      @include phone {
+        height: 25px;
       }
     }
   }

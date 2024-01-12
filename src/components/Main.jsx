@@ -183,8 +183,12 @@ function Main() {
     }
   };
   const checkTg = (event) => {
-    if (tgRef.current.value.trim() === "") {
-      tgRef.current.value = "@" + tgRef.current.value;
+    console.log(event);
+    if (event.keyCode) {
+      const key = event.keyCode;
+      if (key === 8 && tgRef.current.value.trim().length === 1) {
+        event.preventDefault();
+      }
     }
   };
 
