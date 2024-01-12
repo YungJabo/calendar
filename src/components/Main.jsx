@@ -184,7 +184,7 @@ function Main() {
   };
   const checkTg = (event) => {
     if (tgRef.current.value.trim() === "") {
-      tgRef.current.value = "@";
+      tgRef.current.value = "@" + tgRef.current.value;
     }
   };
 
