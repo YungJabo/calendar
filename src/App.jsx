@@ -16,8 +16,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/calendar" element={<Main />} />
-        <Route path="/calendar/about" element={<About />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );
