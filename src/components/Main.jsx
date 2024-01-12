@@ -110,7 +110,9 @@ function Main() {
         end_date: formattedEndDate,
       })
       .then((response) => {
-        console.log(response.data);
+        if (response.status === 201) {
+          getOccupiedDates();
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -172,7 +174,6 @@ function Main() {
     const response = await axios.get(
       "https://monya.pythonanywhere.com/front_api/reserved_days"
     );
-    console.log(response.data.days);
     setOccupiedDates(response.data.days);
   };
   const checkPhone = (event) => {
@@ -182,9 +183,8 @@ function Main() {
     }
   };
   const checkTg = (event) => {
-    const keyCode = event.keyCode || event.which;
-    if (keyCode == 8 && tgRef.current.value.length === 1) {
-      event.preventDefault();
+    if (tgRef.current.value.trim() === "") {
+      tgRef.current.value = "@";
     }
   };
 
@@ -272,7 +272,7 @@ function Main() {
         placeholder="Введите номер телефона"
       />
       <input
-        onKeyDown={checkTg}
+        onChange={checkTg}
         type="text"
         name=""
         id=""
