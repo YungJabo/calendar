@@ -39,16 +39,18 @@ function Main() {
 
   const selectTimeStart = (time) => {
     const currentHour = parseInt(time.split(":")[0], 10);
-    const pastTimes = times.filter((time_) => {
-      const timeHour = parseInt(time_.split(":")[0], 10);
-      return (
-        format(selectedDate[0], "MM-dd") === format(selectedDate[1], "MM-dd") &&
-        timeHour <= currentHour
-      );
-    });
-    setStartTimesBlock([]);
-    setEndTimesBlock(pastTimes);
-    setSelectedTimeStart(time);
+    if (selectedDate.length > 0) {
+      const pastTimes = times.filter((time_) => {
+        const timeHour = parseInt(time_.split(":")[0], 10);
+        return (
+          format(selectedDate[0], "MM-dd") ===
+            format(selectedDate[1], "MM-dd") && timeHour <= currentHour
+        );
+      });
+      setStartTimesBlock([]);
+      setEndTimesBlock(pastTimes);
+      setSelectedTimeStart(time);
+    }
   };
   const selectTimeEnd = (time) => {
     const currentHour = parseInt(time.split(":")[0], 10);
@@ -90,18 +92,29 @@ function Main() {
     endDateWithTime.setHours(selectedTimeEnd.split(":")[0]);
     endDateWithTime.setMinutes(selectedTimeEnd.split(":")[1]);
 
-    const formattedStartDate = format(startDateWithTime, "yyyy-MM-dd'T'HH:mm");
-    const formattedEndDate = format(endDateWithTime, "yyyy-MM-dd'T'HH:mm");
+    const formattedStartDate = format(startDateWithTime, "yyyy-MM-dd HH:mm");
+    const formattedEndDate = format(endDateWithTime, "yyyy-MM-dd HH:mm");
+    const tgName = tgRef.current.value.length > 1 ? tgRef.current.value : "";
+    console.log(
+      formattedStartDate,
+      formattedEndDate,
+      phoneRef.current.value,
+      tgName
+    );
 
-    console.log(formattedStartDate, formattedEndDate, phoneRef.current.value);
-    // axios
-    //   .post("/api/data", { key: "value" })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    axios
+      .post("https://monya.pythonanywhere.com/front_api/reserve", {
+        phone: phoneRef.current.value,
+        telegram: tgName,
+        start_date: formattedStartDate,
+        end_date: formattedEndDate,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   const tileDisabled = ({ date }) => {
     const today = new Date();
@@ -176,7 +189,11 @@ function Main() {
   };
 
   useEffect(() => {
-    setStartTimesBlock([]);
+    if (selectedDate.length > 0) {
+      setStartTimesBlock([]);
+    } else {
+      setStartTimesBlock(times);
+    }
     setEndTimesBlock(times);
     setSelectedTimeStart(null);
     setSelectedTimeEnd(null);
@@ -264,7 +281,7 @@ function Main() {
       />
       <button onClick={sendDates}>Забронировать</button>
       <button onClick={testFunc}>Тест</button>
-      <Link to="/calendar/about">Go to Main</Link>
+      <Link to="/about">Go to Main</Link>
     </>
   );
 }
