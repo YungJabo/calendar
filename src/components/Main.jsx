@@ -19,6 +19,7 @@ function Main() {
   const [endTimesBlock, setEndTimesBlock] = useState(times);
   const [occupiedDates, setOccupiedDates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModal, setIsModal] = useState(false);
   const phoneRef = useRef(null);
   const tgRef = useRef(null);
   const currentDate = new Date();
@@ -116,14 +117,26 @@ function Main() {
         if (response.status === 201) {
           getOccupiedDates();
         }
+        if (response.status === 400) {
+          console.log(response.non_field_errors);
+        }
       })
       .catch((error) => {
-        console.error(error);
+        if (error.response && error.response.status === 400) {
+          // Обработка ошибки с статусом 400
+          const errorData = error.response.data;
+          if (errorData && errorData.non_field_errors) {
+            const errorMessage = errorData.non_field_errors;
+            console.log(errorMessage);
+
+            // Дальнейшая обработка ошибки, если необходимо
+          }
+        }
       });
   };
   const tileDisabled = ({ date }) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    date.setHours(23, 59, 59, 0);
     if (date < today) {
       return true;
     }
@@ -138,7 +151,7 @@ function Main() {
       : "";
   };
   const checkTime = (newDate) => {
-    const targetTimezone = "Pacific/Apia";
+    const targetTimezone = "Europe/Paris";
     const currentDateInTargetTimezone = moment().tz(targetTimezone);
     const currentTime = currentDateInTargetTimezone.format("HH:mm");
     const currentHour = parseInt(currentTime.split(":")[0], 10);
@@ -213,6 +226,9 @@ function Main() {
   useEffect(() => {
     getOccupiedDates();
   }, []);
+  useEffect(() => {
+    console.log(occupiedDates);
+  }, [occupiedDates]);
   useEffect(() => {
     if (!isLoading) {
       tgRef.current.value = "@";
@@ -306,6 +322,7 @@ function Main() {
       ) : (
         <img src={dogGif} className="img-loading" alt="" />
       )}
+      <div className="modal"></div>
     </>
   );
 }

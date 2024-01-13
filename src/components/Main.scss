@@ -1,9 +1,5 @@
 @import "./media.scss";
 
-.occupied {
-  background-color: rgba(215, 0, 0, 0.562) !important;
-  color: white !important;
-}
 ul {
   list-style: none;
 }
@@ -142,9 +138,18 @@ ul {
     align-items: center;
     justify-content: center;
     &--now {
-      background-color: white;
+      background: white;
+      &.occupied {
+        background-color: rgba(215, 0, 0, 0.562) !important;
+      }
       &:hover {
-        background-color: #e6e6e6 !important;
+        background: #e6e6e6 !important;
+      }
+    }
+    &--active {
+      background-color: rgba(85, 122, 255, 0.593);
+      &:hover {
+        background-color: rgb(85, 122, 255);
       }
     }
     &:disabled {
@@ -159,4 +164,20 @@ ul {
   @include phone330 {
     width: 85vw;
   }
+}
+.occupied {
+  background-color: rgba(215, 0, 0, 0.562) !important;
+  color: white !important;
+}
+.modal {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(59, 59, 59, 0.467);
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
