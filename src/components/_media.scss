@@ -3,3 +3,8 @@
     @content;
   }
 }
+@mixin phone330() {
+  @media screen and (max-width: 330px) {
+    @content;
+  }
+}

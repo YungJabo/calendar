@@ -15,6 +15,11 @@ ul {
   @include phone {
     flex-direction: column;
   }
+  @include phone330 {
+    max-width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 .time-text {
   font-size: 16px;
@@ -33,7 +38,9 @@ ul {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-
+  @include phone330 {
+    grid-template-columns: repeat(4, 1fr);
+  }
   &__item {
     padding: 5px;
     border: 2px solid black;
@@ -90,6 +97,14 @@ ul {
   width: 500px;
   @include phone {
     width: 100%;
+  }
+  @include phone330 {
+    max-width: 290px;
+    padding: 3px;
+    padding-bottom: 8px;
+  }
+  &__navigation {
+    margin-bottom: 0;
   }
   &__navigation__next2-button {
     display: none;
