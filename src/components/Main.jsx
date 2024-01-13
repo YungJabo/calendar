@@ -178,7 +178,9 @@ function Main() {
       "https://monya.pythonanywhere.com/front_api/reserved_days"
     );
     setOccupiedDates(response.data.days);
-    // setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
   };
   const checkPhone = (event) => {
     const keyCode = event.keyCode || event.which;
