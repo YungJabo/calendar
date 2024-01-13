@@ -5,7 +5,7 @@
   overflow: hidden;
   margin: 0 auto;
   text-align: center;
-  height: 100vh;
+  max-height: 100vh;
   @include phone330 {
     width: 100vw;
     margin: 0 0;
