@@ -183,12 +183,13 @@ function Main() {
     }
   };
   const checkTg = (event) => {
-    console.log(event);
-    if (event.keyCode) {
-      const key = event.keyCode;
-      if (key === 8 && tgRef.current.value.trim().length === 1) {
-        event.preventDefault();
-      }
+    tgRef.current.setSelectionRange(
+      tgRef.current.value.length,
+      tgRef.current.value.length
+    );
+    tgRef.current.focus();
+    if (tgRef.current.value.trim() === "") {
+      tgRef.current.value = "@";
     }
   };
 
@@ -277,11 +278,12 @@ function Main() {
       />
       <input
         onChange={checkTg}
+        onKeyDown={checkTg}
         type="text"
         name=""
         id=""
         ref={tgRef}
-        placeholder="Введите ник телеграмм"
+        placeholder="@telegram_nick"
       />
       <button onClick={sendDates}>Забронировать</button>
       <button onClick={testFunc}>Тест</button>
