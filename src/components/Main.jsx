@@ -129,9 +129,7 @@ function Main() {
           const errorData = error.response.data;
           if (errorData && errorData.non_field_errors) {
             const errorMessage = errorData.non_field_errors;
-            console.log(errorMessage);
-
-            // Дальнейшая обработка ошибки, если необходимо
+            setErrors(errorMessage);
           }
         }
       });
@@ -139,6 +137,7 @@ function Main() {
   const tileDisabled = ({ date }) => {
     const today = new Date();
     date.setHours(23, 59, 59, 0);
+    console.log(today, date);
     if (date < today) {
       return true;
     }
@@ -195,7 +194,7 @@ function Main() {
     setOccupiedDates(response.data.days);
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
   };
   const checkPhone = (event) => {
     const keyCode = event.keyCode || event.which;
