@@ -9,6 +9,7 @@ import moment from "moment-timezone";
 import { Link } from "react-router-dom";
 import dogGif from "../assets/dog.gif";
 import dogWebm from "../assets/dog.webm";
+import closeSvg from "../assets/close.svg";
 
 function Main() {
   const [selectedDate, setSelectedDate] = useState([]);
@@ -20,6 +21,7 @@ function Main() {
   const [occupiedDates, setOccupiedDates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
+  const [errors, setErrors] = useState([]);
   const phoneRef = useRef(null);
   const tgRef = useRef(null);
   const currentDate = new Date();
@@ -227,8 +229,13 @@ function Main() {
     getOccupiedDates();
   }, []);
   useEffect(() => {
-    console.log(occupiedDates);
-  }, [occupiedDates]);
+    const body = document.body;
+    if (isModal) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "scroll";
+    }
+  }, [isModal]);
   useEffect(() => {
     if (!isLoading) {
       tgRef.current.value = "@";
@@ -322,7 +329,20 @@ function Main() {
       ) : (
         <img src={dogGif} className="img-loading" alt="" />
       )}
-      <div className="modal"></div>
+      {isModal ? (
+        <div className="modal">
+          <ul className="errors">
+            {errors.map((error, index) => (
+              <li key={index} className="errors__item">
+                {error}
+              </li>
+            ))}
+          </ul>
+          <img className="img-close" src={closeSvg} />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }
