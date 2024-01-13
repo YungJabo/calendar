@@ -20,7 +20,7 @@ function Main() {
   const [endTimesBlock, setEndTimesBlock] = useState(times);
   const [occupiedDates, setOccupiedDates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isModal, setIsModal] = useState(false);
+  const [isModal, setIsModal] = useState(true);
   const [errors, setErrors] = useState([]);
   const phoneRef = useRef(null);
   const tgRef = useRef(null);
