@@ -135,9 +135,13 @@ function Main() {
       });
   };
   const tileDisabled = ({ date }) => {
-    const today = new Date();
-    date.setHours(23, 59, 59, 0);
-    if (date < today) {
+    const targetTimezone = "Europe/Podgorica";
+    const currentDateInTargetTimezone = moment
+      .tz(targetTimezone)
+      .format("DD-HH-MM");
+    const day = parseInt(currentDateInTargetTimezone.split("-")[0], 10);
+    const month = parseInt(currentDateInTargetTimezone.split("-")[2], 10);
+    if (date.getDate() < day && date.getMonth() + 1 <= month) {
       return true;
     }
     const formattedDate = format(date, "yyyy-MM-dd");
@@ -154,12 +158,21 @@ function Main() {
     const targetTimezone = "Europe/Podgorica";
     const currentDateInTargetTimezone = moment
       .tz(targetTimezone)
-      .format("DD-HH");
-    const currentHour = parseInt(currentDateInTargetTimezone.split("-")[1], 10);
+      .format("DD-HH-MM");
     const currentDay = parseInt(currentDateInTargetTimezone.split("-")[0], 10);
+    const currentHour = parseInt(currentDateInTargetTimezone.split("-")[1], 10);
+    const currentMonth = parseInt(
+      currentDateInTargetTimezone.split("-")[2],
+      10
+    );
+    console.log(newDate[0].getMonth());
     const pastTimes = times.filter((time) => {
       const timeHour = parseInt(time.split(":")[0], 10);
-      return newDate[0].getDate() === currentDay && timeHour < currentHour;
+      return (
+        newDate[0].getDate() === currentDay &&
+        timeHour < currentHour &&
+        newDate[0].getMonth() + 1 === currentMonth
+      );
     });
     setTimesBlock(pastTimes);
   };
