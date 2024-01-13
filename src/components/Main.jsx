@@ -8,6 +8,7 @@ import axios from "axios";
 import moment from "moment-timezone";
 import { Link } from "react-router-dom";
 import dogGif from "../assets/dog.gif";
+import dogWebm from "../assets/dog.webm";
 
 function Main() {
   const [selectedDate, setSelectedDate] = useState([]);
@@ -177,6 +178,7 @@ function Main() {
       "https://monya.pythonanywhere.com/front_api/reserved_days"
     );
     setOccupiedDates(response.data.days);
+    // setIsLoading(false);
   };
   const checkPhone = (event) => {
     const keyCode = event.keyCode || event.which;
