@@ -183,13 +183,12 @@ function Main() {
     }
   };
   const checkTg = (event) => {
-    tgRef.current.setSelectionRange(
-      tgRef.current.value.length,
-      tgRef.current.value.length
-    );
-    tgRef.current.focus();
-    if (tgRef.current.value.trim() === "") {
+    if (tgRef.current.value[0] !== "@") {
       tgRef.current.value = "@";
+    }
+    if (event.target.selectionStart == 1) {
+      event.preventDefault();
+      event.target.selectionStart = 2;
     }
   };
 
@@ -277,8 +276,8 @@ function Main() {
         placeholder="Введите номер телефона"
       />
       <input
+        onInput={checkTg}
         onChange={checkTg}
-        onKeyDown={checkTg}
         type="text"
         name=""
         id=""
