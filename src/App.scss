@@ -1,10 +1,11 @@
 @import "./components/Main.scss";
 
 #root {
-  // max-width: 100vw;
+  max-width: 100vw;
   overflow: hidden;
   margin: 0 auto;
   text-align: center;
+  max-height: 100vh;
   @include phone330 {
     width: 100vw;
     margin: 0 0;

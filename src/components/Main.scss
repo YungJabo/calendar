@@ -148,6 +148,9 @@ ul {
   }
 }
 .img-loading {
-  width: 120px;
-  height: 120px;
+  width: 55vw;
+  max-height: 100vh;
+  @include phone330 {
+    width: 85vw;
+  }
 }
