@@ -184,11 +184,13 @@ function Main() {
   };
   const checkTg = (event) => {
     if (tgRef.current.value[0] !== "@") {
-      tgRef.current.value = "@";
+      let currentValue = tgRef.current.value;
+      currentValue = currentValue.replace("@", "");
+      tgRef.current.value = "@" + currentValue;
     }
     if (event.target.selectionStart == 1) {
       event.preventDefault();
-      event.target.selectionStart = 2;
+      event.target.selectionStart = tgRef.current.value.length;
     }
   };
 
