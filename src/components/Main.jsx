@@ -137,7 +137,6 @@ function Main() {
   const tileDisabled = ({ date }) => {
     const today = new Date();
     date.setHours(23, 59, 59, 0);
-    console.log(today, date);
     if (date < today) {
       return true;
     }
@@ -152,16 +151,15 @@ function Main() {
       : "";
   };
   const checkTime = (newDate) => {
-    const targetTimezone = "Europe/Paris";
-    const currentDateInTargetTimezone = moment().tz(targetTimezone);
-    const currentTime = currentDateInTargetTimezone.format("HH:mm");
-    const currentHour = parseInt(currentTime.split(":")[0], 10);
+    const targetTimezone = "Europe/Podgorica";
+    const currentDateInTargetTimezone = moment
+      .tz(targetTimezone)
+      .format("DD-HH");
+    const currentHour = parseInt(currentDateInTargetTimezone.split("-")[1], 10);
+    const currentDay = parseInt(currentDateInTargetTimezone.split("-")[0], 10);
     const pastTimes = times.filter((time) => {
       const timeHour = parseInt(time.split(":")[0], 10);
-      return (
-        newDate[0].getDate() === currentDateInTargetTimezone.date() &&
-        timeHour < currentHour
-      );
+      return newDate[0].getDate() === currentDay && timeHour < currentHour;
     });
     setTimesBlock(pastTimes);
   };
@@ -232,7 +230,7 @@ function Main() {
     if (isModal) {
       body.style.overflow = "hidden";
     } else {
-      body.style.overflow = "scroll";
+      body.style.overflow = "visible";
     }
   }, [isModal]);
   useEffect(() => {
