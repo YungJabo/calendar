@@ -5,7 +5,6 @@
   overflow: hidden;
   margin: 0 auto;
   text-align: center;
-  max-height: 100vh;
   @include phone330 {
     width: 100vw;
     margin: 0 0;
@@ -25,7 +24,6 @@ body {
   color-scheme: light !important;
   color: black;
   background-color: white !important;
-  max-height: 100vh;
 }
 
 .logo {
