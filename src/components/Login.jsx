@@ -12,12 +12,14 @@ function Login() {
     await axios
       .get("https://monya.pythonanywhere.com/api/v1/drf-auth/login/")
       .then((response) => {
-        console.log(response);
+        const csrfToken = response.headers["set-cookie"].find((cookie) =>
+          cookie.includes("csrftoken")
+        );
+        console.log(csrfToken);
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log(window.CSRF_TOKEN);
   };
 
   const authorization = (event) => {
