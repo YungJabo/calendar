@@ -19,14 +19,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-    </Router>
+    <CookiesProvider defaultSetOptions={{ path: "/" }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </Router>
+    </CookiesProvider>
   );
 }
 
