@@ -38,10 +38,10 @@ function Login() {
       .catch((error) => {
         console.log(error);
       });
-    // setCookie("auth", "cookieValue", { path: "/" });
   };
   useEffect(() => {
     getToken();
+    console.log(document.cookie);
   }, []);
 
   return (
