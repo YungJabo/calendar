@@ -43,6 +43,9 @@ function Login() {
         console.log(error);
       });
   };
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
 
   return (
     <>
