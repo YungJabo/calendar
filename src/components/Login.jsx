@@ -10,16 +10,18 @@ function Login() {
 
   const getToken = async () => {
     await axios
-      .get("https://monya.pythonanywhere.com/api/v1/drf-auth/login/")
+      .get("https://monya.pythonanywhere.com/api/v1/drf-auth/login/", {
+        withCredentials: true,
+        xsrfCookieName: "csrftoken",
+        xsrfHeaderName: "X-CSRFTOKEN",
+      })
       .then((response) => {
-        const csrfToken = response.headers["set-cookie"].find((cookie) =>
-          cookie.includes("csrftoken")
-        );
-        console.log(csrfToken);
+        console.log(response.headers);
       })
       .catch((error) => {
         console.log(error);
       });
+    console.log(document.cookie);
   };
 
   const authorization = (event) => {
