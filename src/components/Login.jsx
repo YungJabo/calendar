@@ -10,9 +10,7 @@ function Login() {
 
   const getToken = async () => {
     await axios
-      .get("https://monya.pythonanywhere.com/api/v1/drf-auth/login/", {
-        withCredentials: true,
-      })
+      .get("https://monya.pythonanywhere.com/api/v1/drf-auth/login/")
       .then((response) => {
         console.log(response);
       })
