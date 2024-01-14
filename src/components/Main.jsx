@@ -19,7 +19,7 @@ function Main() {
   const [startTimesBlock, setStartTimesBlock] = useState([]);
   const [endTimesBlock, setEndTimesBlock] = useState(times);
   const [occupiedDates, setOccupiedDates] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [errors, setErrors] = useState([]);
   const phoneRef = useRef(null);
@@ -40,7 +40,6 @@ function Main() {
     const data = await axios.get(
       "https://monya.pythonanywhere.com/front_api/reserved_days"
     );
-    console.log(data);
   };
 
   const selectTimeStart = (time) => {
@@ -140,8 +139,15 @@ function Main() {
       .tz(targetTimezone)
       .format("DD-HH-MM");
     const day = parseInt(currentDateInTargetTimezone.split("-")[0], 10);
+    const hours = parseInt(currentDateInTargetTimezone.split("-")[1], 10);
     const month = parseInt(currentDateInTargetTimezone.split("-")[2], 10);
-    if (date.getDate() < day && date.getMonth() + 1 <= month) {
+
+    if (
+      (date.getDate() < day && date.getMonth() + 1 === month) ||
+      (date.getDate() === day &&
+        date.getMonth() + 1 === month &&
+        hours >= parseInt(times[times.length - 1].split("-")[0], 10))
+    ) {
       return true;
     }
     const formattedDate = format(date, "yyyy-MM-dd");
@@ -149,8 +155,15 @@ function Main() {
   };
   const tileClassName = ({ date }) => {
     const formattedDate = format(date, "yyyy-MM-dd");
-    const today = new Date();
-    return occupiedDates.includes(formattedDate) && date >= today
+    const targetTimezone = "Europe/Podgorica";
+    const currentDateInTargetTimezone = moment
+      .tz(targetTimezone)
+      .format("DD-HH-MM");
+    const day = parseInt(currentDateInTargetTimezone.split("-")[0], 10);
+    const month = parseInt(currentDateInTargetTimezone.split("-")[2], 10);
+    return occupiedDates.includes(formattedDate) &&
+      date.getDate() >= day &&
+      date.getMonth() + 1 === month
       ? "occupied"
       : "";
   };
@@ -165,7 +178,6 @@ function Main() {
       currentDateInTargetTimezone.split("-")[2],
       10
     );
-    console.log(newDate[0].getMonth());
     const pastTimes = times.filter((time) => {
       const timeHour = parseInt(time.split(":")[0], 10);
       return (
@@ -203,6 +215,7 @@ function Main() {
       "https://monya.pythonanywhere.com/front_api/reserved_days"
     );
     setOccupiedDates(response.data.days);
+    console.log(response.data.days);
     setTimeout(() => {
       setIsLoading(false);
     }, 1500);
@@ -250,6 +263,7 @@ function Main() {
     if (!isLoading) {
       tgRef.current.value = "@";
     }
+    console.log(times[times.length - 1]);
   }, [isLoading]);
   return (
     <>
@@ -334,7 +348,7 @@ function Main() {
 
           <button onClick={sendDates}>Забронировать</button>
           <button onClick={testFunc}>Тест</button>
-          <Link to="/about">Go to Main</Link>
+          <Link to="/admin">Admin panel</Link>
         </div>
       ) : (
         <img src={dogGif} className="img-loading" alt="" />

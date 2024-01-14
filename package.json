@@ -15,10 +15,12 @@
   "dependencies": {
     "axios": "^1.6.5",
     "date-fns": "^3.2.0",
+    "django-react-csrftoken": "^1.0.4",
     "gh-pages": "^6.1.1",
     "moment-timezone": "^0.5.44",
     "react": "^18.2.0",
     "react-calendar": "^4.7.0",
+    "react-cookie": "^7.0.1",
     "react-datetime": "^3.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.2",

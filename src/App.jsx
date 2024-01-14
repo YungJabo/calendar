@@ -10,15 +10,24 @@ import axios from "axios";
 import moment from "moment-timezone";
 import Main from "./components/Main";
 import About from "./components/About";
+import Login from "./components/Login";
+import Admin from "./components/Admin";
+
+import { CookiesProvider } from "react-cookie";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
+      <CookiesProvider defaultSetOptions={{ path: "/" }}>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </CookiesProvider>
     </Router>
   );
 }
