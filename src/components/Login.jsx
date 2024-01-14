@@ -32,7 +32,7 @@ function Login() {
     const login = loginRef.current.value;
     const pass = passRef.current.value;
     axios
-      .post("https://monya.pythonanywhere.com/api/v1/drf-auth/login/", {
+      .post("https://monya.pythonanywhere.com/api/staff/obtain-pair", {
         username: login,
         password: pass,
       })
