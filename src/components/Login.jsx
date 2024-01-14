@@ -4,6 +4,10 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 
 function Login() {
+  const [isLoginFocused, setLoginFocused] = useState(false);
+  const [isPassFocused, setPassFocused] = useState(false);
+  const [login, setLogin] = useState("");
+  const [pass, setPass] = useState("");
   const loginRef = useRef(null);
   const passRef = useRef(null);
   const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
@@ -28,7 +32,7 @@ function Login() {
     const login = loginRef.current.value;
     const pass = passRef.current.value;
     axios
-      .post("https://monya.pythonanywhere.com/front_api/reserve", {
+      .post("https://monya.pythonanywhere.com/api/v1/drf-auth/login/", {
         username: login,
         password: pass,
       })
@@ -39,33 +43,47 @@ function Login() {
         console.log(error);
       });
   };
-  useEffect(() => {
-    getToken();
-    console.log(document.cookie);
-  }, []);
 
   return (
     <>
       <div className="login">
         <form className="form">
           <div className="input-block">
-            <label htmlFor="">Логин</label>
+            <label
+              htmlFor="login"
+              className={`${
+                isLoginFocused || (login && login.length > 0) ? "active" : ""
+              }`}
+            >
+              Логин
+            </label>
             <input
               type="text"
               name=""
-              id=""
-              placeholder="Введите логин"
+              id="login"
               ref={loginRef}
+              onFocus={() => setLoginFocused(true)}
+              onBlur={() => setLoginFocused(false)}
+              onChange={() => setLogin(loginRef.current.value)}
             />
           </div>
           <div className="input-block">
-            <label htmlFor="">Пароль</label>
+            <label
+              htmlFor="pass"
+              className={`${
+                isPassFocused || (pass && pass.length > 0) ? "active" : ""
+              }`}
+            >
+              Пароль
+            </label>
             <input
               type="password"
-              name=""
-              id=""
-              placeholder="Введите пароль"
+              name="pass"
+              id="pass"
               ref={passRef}
+              onFocus={() => setPassFocused(true)}
+              onBlur={() => setPassFocused(false)}
+              onChange={() => setPass(passRef.current.value)}
             />
           </div>
           <button
