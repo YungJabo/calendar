@@ -16,12 +16,11 @@ function Login() {
         xsrfHeaderName: "X-CSRFTOKEN",
       })
       .then((response) => {
-        console.log(response.headers);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log(document.cookie);
   };
 
   const authorization = (event) => {
