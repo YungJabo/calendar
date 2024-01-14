@@ -2,7 +2,6 @@ import "../components/Login.scss";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import DjangoCSRFToken from "django-react-csrftoken";
 
 function Login() {
   const loginRef = useRef(null);
@@ -48,7 +47,6 @@ function Login() {
     <>
       <div className="login">
         <form className="form">
-          <DjangoCSRFToken />
           <div className="input-block">
             <label htmlFor="">Логин</label>
             <input
