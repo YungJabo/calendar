@@ -2,6 +2,7 @@ import "../components/Login.scss";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isLoginFocused, setLoginFocused] = useState(false);
@@ -10,22 +11,13 @@ function Login() {
   const [pass, setPass] = useState("");
   const loginRef = useRef(null);
   const passRef = useRef(null);
-  const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
-
-  const getToken = async () => {
-    await axios
-      .get("https://monya.pythonanywhere.com/api/v1/drf-auth/login/", {
-        withCredentials: true,
-        xsrfCookieName: "csrftoken",
-        xsrfHeaderName: "X-CSRFTOKEN",
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const navigate = useNavigate();
+  const [cookieAccess, setCookieAccess, removeCookieAccess] = useCookies([
+    "access",
+  ]);
+  const [cookieRefresh, setCookieRefresh, removeCookieRefresh] = useCookies([
+    "resfresh",
+  ]);
 
   const authorization = (event) => {
     event.preventDefault();
@@ -37,7 +29,11 @@ function Login() {
         password: pass,
       })
       .then((response) => {
-        console.log(response);
+        if (response.status === 200) {
+          setCookieAccess(response.data.access);
+          setCookieRefresh(response.data.refresh);
+          navigate("/admin");
+        }
       })
       .catch((error) => {
         console.log(error);
