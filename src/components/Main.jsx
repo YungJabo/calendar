@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import dogGif from "../assets/dog.gif";
 import dogWebm from "../assets/dog.webm";
 import closeSvg from "../assets/close.svg";
+import errorSvg from "../assets/error.svg";
 
 function Main() {
   const body = document.body;
@@ -41,6 +42,11 @@ function Main() {
     const data = await axios.get(
       "https://monya.pythonanywhere.com/api/reserved_days"
     );
+  };
+
+  const closeModal = () => {
+    setIsModal(false);
+    setErrors([]);
   };
 
   const selectTimeStart = (time) => {
@@ -79,15 +85,15 @@ function Main() {
     setEndTimesBlock(pastTimes);
     setSelectedTimeEnd(time);
   };
-  const sendDates = () => {
+  const sendDates = async () => {
     const startDate = selectedDate[0] || null;
     const endDate = selectedDate[1] || null;
     if (!startDate || !endDate || !selectedTimeStart || !selectedTimeEnd) {
-      alert("Вы не выбрали дату или время");
-      return;
+      setErrors(["Вы не выбрали дату или время"]);
     }
     if (phoneRef.current.value === "") {
-      alert("Вы не ввели номер телефона");
+      setErrors((prevErrors) => [...prevErrors, "Вы не ввели номер телефона"]);
+      setIsModal(true);
       return;
     }
     const startDateWithTime = new Date(startDate);
@@ -101,14 +107,8 @@ function Main() {
     const formattedStartDate = format(startDateWithTime, "yyyy-MM-dd HH:mm");
     const formattedEndDate = format(endDateWithTime, "yyyy-MM-dd HH:mm");
     const tgName = tgRef.current.value.length > 1 ? tgRef.current.value : "";
-    console.log(
-      formattedStartDate,
-      formattedEndDate,
-      phoneRef.current.value,
-      tgName
-    );
-
-    axios
+    setIsLoading(true);
+    await axios
       .post("https://monya.pythonanywhere.com/api/reserve", {
         phone: phoneRef.current.value,
         telegram: tgName,
@@ -119,19 +119,20 @@ function Main() {
         if (response.status === 201) {
           getOccupiedDates();
         }
-        if (response.status === 400) {
-          console.log(response.non_field_errors);
-        }
+        setIsLoading(false);
       })
       .catch((error) => {
+        console.log(error.response.data);
         if (error.response && error.response.status === 400) {
           // Обработка ошибки с статусом 400
           const errorData = error.response.data;
-          if (errorData && errorData.non_field_errors) {
-            const errorMessage = errorData.non_field_errors;
+          setIsModal(true);
+          if (errorData) {
+            const errorMessage = errorData.errors;
             setErrors(errorMessage);
           }
         }
+        setIsLoading(false);
       });
   };
   const tileDisabled = ({ date }) => {
@@ -162,9 +163,10 @@ function Main() {
       .format("DD-HH-MM");
     const day = parseInt(currentDateInTargetTimezone.split("-")[0], 10);
     const month = parseInt(currentDateInTargetTimezone.split("-")[2], 10);
-    return occupiedDates.includes(formattedDate) &&
+    return (occupiedDates.includes(formattedDate) &&
       date.getDate() >= day &&
-      date.getMonth() + 1 === month
+      date.getMonth() + 1 === month) ||
+      (occupiedDates.includes(formattedDate) && date.getMonth() + 1 > month)
       ? "occupied"
       : "";
   };
@@ -356,14 +358,19 @@ function Main() {
       )}
       {isModal ? (
         <div className="modal">
-          <ul className="errors">
-            {errors.map((error, index) => (
-              <li key={index} className="errors__item">
-                {error}
-              </li>
-            ))}
-          </ul>
-          <img className="img-close" src={closeSvg} />
+          <div className="modal__content">
+            <ul className="errors">
+              {errors.map((error, index) => (
+                <li key={index} className="errors__item">
+                  <img src={errorSvg} alt="" className="error__img" />
+                  <span className="error__text">{error}</span>
+                </li>
+              ))}
+            </ul>
+            <button className="modal__close" onClick={closeModal}>
+              <img className="img-close" src={closeSvg} />
+            </button>
+          </div>
         </div>
       ) : (
         ""
