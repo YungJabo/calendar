@@ -10,7 +10,7 @@ import { checkCookie } from "./checkCookie";
 function Login() {
   const [isLoginFocused, setLoginFocused] = useState(false);
   const [isPassFocused, setPassFocused] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [login, setLogin] = useState("");
   const [pass, setPass] = useState("");
   const loginRef = useRef(null);
@@ -60,7 +60,6 @@ function Login() {
     } else {
       navigate("/admin");
     }
-    setIsLoading(false);
   }, []);
 
   return (
