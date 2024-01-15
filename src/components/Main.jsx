@@ -19,7 +19,7 @@ function Main() {
   const [startTimesBlock, setStartTimesBlock] = useState([]);
   const [endTimesBlock, setEndTimesBlock] = useState(times);
   const [occupiedDates, setOccupiedDates] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
   const [errors, setErrors] = useState([]);
   const phoneRef = useRef(null);
@@ -38,7 +38,7 @@ function Main() {
 
   const testFunc = async () => {
     const data = await axios.get(
-      "https://monya.pythonanywhere.com/front_api/reserved_days"
+      "https://monya.pythonanywhere.com/api/reserved_days"
     );
   };
 
@@ -108,7 +108,7 @@ function Main() {
     );
 
     axios
-      .post("https://monya.pythonanywhere.com/front_api/reserve", {
+      .post("https://monya.pythonanywhere.com/api/reserve", {
         phone: phoneRef.current.value,
         telegram: tgName,
         start_date: formattedStartDate,
@@ -212,13 +212,13 @@ function Main() {
   };
   const getOccupiedDates = async () => {
     const response = await axios.get(
-      "https://monya.pythonanywhere.com/front_api/reserved_days"
+      "https://monya.pythonanywhere.com/api/reserved_days"
     );
     setOccupiedDates(response.data.days);
     console.log(response.data.days);
     setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 1000);
   };
   const checkPhone = (event) => {
     const keyCode = event.keyCode || event.which;
@@ -264,6 +264,13 @@ function Main() {
       tgRef.current.value = "@";
     }
     console.log(times[times.length - 1]);
+  }, [isLoading]);
+  useEffect(() => {
+    if (isLoading) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "visible";
+    }
   }, [isLoading]);
   return (
     <>

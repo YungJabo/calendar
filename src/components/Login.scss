@@ -14,6 +14,7 @@
   padding: 20px;
   border-radius: 13px 13px 13px 2px;
   align-items: center;
+  position: relative;
   @include phone330 {
     max-width: 280px;
     width: 80%;
@@ -33,6 +34,12 @@
     border: none;
     padding: 30px 15px 15px 15px;
     border-radius: 5px;
+    outline: none;
+    border: 2px solid transparent;
+    transition: 0.4s ease-in-out;
+    &:focus {
+      border-radius: 10px;
+    }
   }
   label {
     display: flex;
@@ -51,4 +58,9 @@
       font-size: 14px;
     }
   }
+}
+.error {
+  position: absolute;
+  bottom: 30px;
+  color: rgb(107, 0, 0);
 }
