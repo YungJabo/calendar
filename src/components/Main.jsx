@@ -12,6 +12,7 @@ import dogWebm from "../assets/dog.webm";
 import closeSvg from "../assets/close.svg";
 
 function Main() {
+  const body = document.body;
   const [selectedDate, setSelectedDate] = useState([]);
   const [selectedTimeStart, setSelectedTimeStart] = useState(null);
   const [selectedTimeEnd, setSelectedTimeEnd] = useState(null);
@@ -252,7 +253,6 @@ function Main() {
     getOccupiedDates();
   }, []);
   useEffect(() => {
-    const body = document.body;
     if (isModal) {
       body.style.overflow = "hidden";
     } else {
