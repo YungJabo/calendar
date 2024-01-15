@@ -55,7 +55,6 @@ function Login() {
       });
   };
   useEffect(() => {
-    document.body.style.overflow = "hidden";
     if (!cookie.access || !cookie.refresh) {
       navigate("/login");
     } else {

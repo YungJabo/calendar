@@ -265,13 +265,7 @@ function Main() {
     }
     console.log(times[times.length - 1]);
   }, [isLoading]);
-  useEffect(() => {
-    if (isLoading) {
-      body.style.overflow = "hidden";
-    } else {
-      body.style.overflow = "visible";
-    }
-  }, [isLoading]);
+
   return (
     <>
       {!isLoading ? (
