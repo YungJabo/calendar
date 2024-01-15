@@ -159,11 +159,8 @@ ul {
   }
 }
 .img-loading {
-  width: 55vw;
-  max-height: 100vh;
-  @include phone330 {
-    width: 85vw;
-  }
+  width: 50vw;
+  max-height: 90dvh;
 }
 .occupied {
   background-color: rgba(215, 0, 0, 0.562) !important;
