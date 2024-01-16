@@ -3,14 +3,15 @@ import axios from "axios";
 export const getProfile = async (access) => {
   try {
     const response = await axios.get(
-      "https://monya.pythonanywhere.com/api/staff/profile",
+      "http://monya.pythonanywhere.com/api/staff/active-reservations",
       {
         headers: {
           Authorization: `Bearer ${access}`,
         },
       }
     );
+    return response;
   } catch (error) {
-    return;
+    return null;
   }
 };

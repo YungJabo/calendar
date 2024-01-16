@@ -11,7 +11,10 @@ const getNewCookie = async (refresh, setCookie, removeCookie, navigate) => {
     );
     setCookie("access", response.data.access);
     setCookie("refresh", response.data.refresh);
-    await getProfile(response.data.access);
+    const profileResponse = await getProfile(response.data.access);
+    if (profileResponse) {
+      console.log(profileResponse);
+    }
   } catch (error) {
     removeCookie("access");
     removeCookie("refresh");
@@ -34,7 +37,10 @@ export const checkCookie = async (
         token: access,
       }
     );
-    await getProfile(access);
+    const profileResponse = await getProfile(access);
+    if (profileResponse) {
+      console.log(profileResponse);
+    }
   } catch (error) {
     await getNewCookie(refresh, setCookie, removeCookie, navigate);
     return;

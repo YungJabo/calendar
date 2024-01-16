@@ -55,11 +55,13 @@ function Login() {
       });
   };
   useEffect(() => {
+    setIsLoading(true);
     if (!cookie.access || !cookie.refresh) {
       navigate("/login");
     } else {
       navigate("/admin");
     }
+    setIsLoading(false);
   }, []);
 
   return (
