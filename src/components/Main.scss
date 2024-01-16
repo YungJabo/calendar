@@ -180,14 +180,30 @@ ul {
   overflow: hidden;
   align-items: center;
   justify-content: center;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+  transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  &--active {
+    transform: scaleY(1);
+  }
   &__content {
     background-color: white;
-    width: 45vw;
+    width: 40vw;
     border-radius: 25px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transform: scaleY(0);
+    transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-origin: 0 0;
+    padding-bottom: 5svh;
+    @include phone330 {
+      width: 90vw;
+    }
+    &--active {
+      transform: scaleY(1);
+    }
   }
   &__close {
     background: none;
@@ -219,6 +235,8 @@ ul {
 }
 .error {
   &__img {
+    margin-top: 5.5px;
+    align-self: flex-start;
     width: 16px;
   }
 }

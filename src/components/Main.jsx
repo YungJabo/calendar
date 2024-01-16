@@ -356,25 +356,25 @@ function Main() {
       ) : (
         <img src={dogGif} className="img-loading" alt="" />
       )}
-      {isModal ? (
-        <div className="modal">
-          <div className="modal__content">
-            <ul className="errors">
-              {errors.map((error, index) => (
-                <li key={index} className="errors__item">
-                  <img src={errorSvg} alt="" className="error__img" />
-                  <span className="error__text">{error}</span>
-                </li>
-              ))}
-            </ul>
-            <button className="modal__close" onClick={closeModal}>
-              <img className="img-close" src={closeSvg} />
-            </button>
-          </div>
+      <div className={`modal ${isModal ? "modal--active" : ""}`}>
+        <div
+          className={`modal__content ${
+            isModal ? "modal__content--active" : ""
+          }`}
+        >
+          <ul className="errors">
+            {errors.map((error, index) => (
+              <li key={index} className="errors__item">
+                <img src={errorSvg} alt="" className="error__img" />
+                <span className="error__text">{error}</span>
+              </li>
+            ))}
+          </ul>
+          <button className="modal__close" onClick={closeModal}>
+            <img className="img-close" src={closeSvg} />
+          </button>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </>
   );
 }
