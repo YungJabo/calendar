@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getProfile } from "./getProfile";
 
 const getNewCookie = async (refresh, setCookie, removeCookie, navigate) => {
   try {
@@ -11,10 +10,6 @@ const getNewCookie = async (refresh, setCookie, removeCookie, navigate) => {
     );
     setCookie("access", response.data.access);
     setCookie("refresh", response.data.refresh);
-    const profileResponse = await getProfile(response.data.access);
-    if (profileResponse) {
-      console.log(profileResponse);
-    }
   } catch (error) {
     removeCookie("access");
     removeCookie("refresh");
@@ -37,10 +32,6 @@ export const checkCookie = async (
         token: access,
       }
     );
-    const profileResponse = await getProfile(access);
-    if (profileResponse) {
-      console.log(profileResponse);
-    }
   } catch (error) {
     await getNewCookie(refresh, setCookie, removeCookie, navigate);
     return;

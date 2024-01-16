@@ -1,0 +1,56 @@
+@import "../components/media";
+
+.header {
+  position: fixed;
+  width: 50vw;
+  display: flex;
+  top: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  padding: 20px 0 20px 0;
+  @include phone {
+    width: 85vw;
+  }
+  &__links {
+    display: flex;
+    gap: 40px;
+    @include phone {
+      gap: 10px;
+    }
+  }
+  &__link {
+    white-space: nowrap;
+    padding: 10px;
+    box-shadow: inset 0 0 0 0 #54b3d6;
+    transition: 0.3s ease-in-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &::after {
+      display: flex;
+      content: "";
+      position: absolute;
+      bottom: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      max-width: 100%;
+      height: 3px;
+      background: #54b3d6;
+      border-radius: 30px;
+      transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    &:hover {
+      &::after {
+        width: calc(100% - 20px);
+      }
+    }
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+}

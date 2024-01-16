@@ -11,6 +11,7 @@ import dogGif from "../assets/dog.gif";
 import dogWebm from "../assets/dog.webm";
 import closeSvg from "../assets/close.svg";
 import errorSvg from "../assets/error.svg";
+import Header from "./Header.jsx";
 
 function Main() {
   const body = document.body;
@@ -185,7 +186,7 @@ function Main() {
       const timeHour = parseInt(time.split(":")[0], 10);
       return (
         newDate[0].getDate() === currentDay &&
-        timeHour < currentHour &&
+        timeHour <= currentHour &&
         newDate[0].getMonth() + 1 === currentMonth
       );
     });
@@ -271,88 +272,91 @@ function Main() {
   return (
     <>
       {!isLoading ? (
-        <div className="wrapper">
-          <div className="main">
-            <Calendar
-              onChange={handleDateChange}
-              value={selectedDate}
-              selectRange={true}
-              tileClassName={tileClassName}
-              tileDisabled={tileDisabled}
-              minDate={firstDayOfCurrentMonth}
-              maxDate={lastDayOfNextMonth}
-              navigationLabel={null}
+        <>
+          <Header />
+          <div className="wrapper">
+            <div className="main">
+              <Calendar
+                onChange={handleDateChange}
+                value={selectedDate}
+                selectRange={true}
+                tileClassName={tileClassName}
+                tileDisabled={tileDisabled}
+                minDate={firstDayOfCurrentMonth}
+                maxDate={lastDayOfNextMonth}
+                navigationLabel={null}
+              />
+
+              <div className="times-block">
+                <div className="time-block">
+                  <span className="time-text">Время заезда:</span>
+                  <ul className="time time--start">
+                    {times.map((time, index) => (
+                      <li
+                        key={index}
+                        className={`time__item ${
+                          selectedTimeStart === time ? "active" : ""
+                        } ${timesBlock.includes(time) ? "block" : ""} ${
+                          !selectedDate ? "block" : ""
+                        } ${startTimesBlock.includes(time) ? "block" : ""}`}
+                        onClick={() => selectTimeStart(time)}
+                      >
+                        {time}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="time-block">
+                  <span className="time-text">Время отъезда:</span>
+                  <ul className="time time--start">
+                    {times.map((time, index) => (
+                      <li
+                        key={index}
+                        className={`time__item ${
+                          selectedTimeEnd === time ? "active" : ""
+                        } ${
+                          timesBlock.includes(time) &&
+                          format(selectedDate[0], "MM-dd") ===
+                            format(selectedDate[1], "MM-dd")
+                            ? "block"
+                            : ""
+                        } ${!selectedDate ? "block" : ""} ${
+                          endTimesBlock.includes(time) ? "block" : ""
+                        }`}
+                        onClick={() => selectTimeEnd(time)}
+                      >
+                        {time}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <button onClick={resetTime}>Сбросить время</button>
+            </div>
+
+            <input
+              onKeyDown={checkPhone}
+              type="tel"
+              name=""
+              id=""
+              ref={phoneRef}
+              placeholder="Введите номер телефона"
+            />
+            <input
+              onInput={checkTg}
+              onChange={checkTg}
+              type="text"
+              name=""
+              id=""
+              ref={tgRef}
+              placeholder="@telegram_nick"
             />
 
-            <div className="times-block">
-              <div className="time-block">
-                <span className="time-text">Время заезда:</span>
-                <ul className="time time--start">
-                  {times.map((time, index) => (
-                    <li
-                      key={index}
-                      className={`time__item ${
-                        selectedTimeStart === time ? "active" : ""
-                      } ${timesBlock.includes(time) ? "block" : ""} ${
-                        !selectedDate ? "block" : ""
-                      } ${startTimesBlock.includes(time) ? "block" : ""}`}
-                      onClick={() => selectTimeStart(time)}
-                    >
-                      {time}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="time-block">
-                <span className="time-text">Время отъезда:</span>
-                <ul className="time time--start">
-                  {times.map((time, index) => (
-                    <li
-                      key={index}
-                      className={`time__item ${
-                        selectedTimeEnd === time ? "active" : ""
-                      } ${
-                        timesBlock.includes(time) &&
-                        format(selectedDate[0], "MM-dd") ===
-                          format(selectedDate[1], "MM-dd")
-                          ? "block"
-                          : ""
-                      } ${!selectedDate ? "block" : ""} ${
-                        endTimesBlock.includes(time) ? "block" : ""
-                      }`}
-                      onClick={() => selectTimeEnd(time)}
-                    >
-                      {time}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <button onClick={resetTime}>Сбросить время</button>
+            <button onClick={sendDates}>Забронировать</button>
+            <button onClick={testFunc}>Тест</button>
+            <Link to="/admin">Admin panel</Link>
           </div>
-
-          <input
-            onKeyDown={checkPhone}
-            type="tel"
-            name=""
-            id=""
-            ref={phoneRef}
-            placeholder="Введите номер телефона"
-          />
-          <input
-            onInput={checkTg}
-            onChange={checkTg}
-            type="text"
-            name=""
-            id=""
-            ref={tgRef}
-            placeholder="@telegram_nick"
-          />
-
-          <button onClick={sendDates}>Забронировать</button>
-          <button onClick={testFunc}>Тест</button>
-          <Link to="/admin">Admin panel</Link>
-        </div>
+        </>
       ) : (
         <img src={dogGif} className="img-loading" alt="" />
       )}

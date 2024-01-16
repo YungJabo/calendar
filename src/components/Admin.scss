@@ -4,7 +4,7 @@
   gap: 18px;
   &__header {
     display: grid;
-    grid-template-columns: repeat(3, 1fr) 100px;
+    grid-template-columns: repeat(4, 1fr) 100px;
     gap: 10px;
     &__item {
       padding: 10px;
@@ -22,7 +22,7 @@
   &__body {
     &__data-block {
       display: grid;
-      grid-template-columns: repeat(3, 1fr) 100px;
+      grid-template-columns: repeat(4, 1fr) 100px;
       gap: 10px;
       width: 100%;
     }
