@@ -59,8 +59,16 @@
       text-align: center;
       border-radius: 10px;
       text-align: center;
-      word-break: break-all;
       max-width: 100%;
+      &:nth-child(-n + 2) {
+        word-wrap: break-word;
+      }
+      &:nth-child(n + 3) {
+        word-break: break-all;
+      }
+      &:nth-child(n + 4) {
+        word-break: break-all;
+      }
       @include phone {
         padding: 6px 0;
         font-size: 11px;
