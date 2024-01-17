@@ -58,12 +58,9 @@
       border: 1px solid #ccc;
       text-align: center;
       border-radius: 10px;
-      white-space: wrap;
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
+      word-break: break-all;
+      max-width: 100%;
       @include phone {
         padding: 6px 0;
         font-size: 11px;
@@ -87,7 +84,7 @@
       transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
       width: 22px;
       @include phone {
-        width: 16px;
+        width: 14px;
       }
     }
     &:hover img {
@@ -98,5 +95,6 @@
 .buttons {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
+  margin-right: 6px;
 }
