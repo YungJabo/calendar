@@ -1,11 +1,13 @@
+@import "./media.scss";
 .data {
   display: flex;
   flex-direction: column;
   gap: 18px;
   &__header {
     display: grid;
-    grid-template-columns: repeat(4, 1fr) 150px;
-    gap: 10px;
+    grid-template-columns: repeat(4, 2fr) 1fr;
+    gap: 6px;
+    width: 95vw;
     &__item {
       padding: 10px;
       border: 1px solid #ffb6b6a8;
@@ -13,6 +15,14 @@
       background: grey;
       color: white;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: wrap;
+      @include phone {
+        padding: 6px 0;
+        font-size: 12px;
+      }
       &:last-child {
         background: none;
         border: none;
@@ -22,9 +32,10 @@
   &__body {
     &__data-block {
       display: grid;
-      grid-template-columns: repeat(4, 1fr) 150px;
-      gap: 10px;
-      width: 100%;
+      grid-template-columns: repeat(4, 2fr) 1fr;
+      gap: 6px;
+      width: 95vw;
+      align-items: center;
     }
     &__item {
       position: relative;
@@ -38,18 +49,26 @@
       border: 1px solid #ccc;
       text-align: center;
       border-radius: 10px;
-      white-space: nowrap;
+      white-space: wrap;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include phone {
+        padding: 6px 0;
+        font-size: 10px;
+      }
     }
   }
 }
 
 .button {
+  flex: 1;
+  outline: none;
+  border: none;
   &--del {
-    width: 50px;
-    height: 50px;
     position: relative;
     padding: 0;
-    background: rgba(223, 188, 255, 0.614);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,6 +76,9 @@
       position: absolute;
       transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
       width: 22px;
+      @include phone {
+        width: 16px;
+      }
     }
     &:hover img {
       transform: scale(1.2);
@@ -66,6 +88,5 @@
 .buttons {
   display: flex;
   align-items: center;
-  margin-left: 10%;
-  gap: 8px;
+  gap: 6px;
 }
