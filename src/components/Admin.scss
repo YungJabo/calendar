@@ -3,11 +3,16 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+
   &__header {
     display: grid;
     grid-template-columns: repeat(4, 2fr) 1fr;
     gap: 6px;
     width: 95vw;
+    @include phone {
+      width: 99vw;
+      gap: 4px;
+    }
     &__item {
       padding: 10px;
       border: 1px solid #ffb6b6a8;
@@ -36,6 +41,10 @@
       gap: 6px;
       width: 95vw;
       align-items: center;
+      @include phone {
+        width: 99vw;
+        gap: 4px;
+      }
     }
     &__item {
       position: relative;
@@ -54,9 +63,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 100%;
       @include phone {
         padding: 6px 0;
-        font-size: 10px;
+        font-size: 11px;
       }
     }
   }
