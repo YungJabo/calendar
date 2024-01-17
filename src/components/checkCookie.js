@@ -10,6 +10,8 @@ const getNewCookie = async (refresh, setCookie, removeCookie, navigate) => {
     );
     setCookie("access", response.data.access);
     setCookie("refresh", response.data.refresh);
+    console.log(response.data.access);
+    return response.data.access;
   } catch (error) {
     removeCookie("access");
     removeCookie("refresh");
@@ -32,8 +34,15 @@ export const checkCookie = async (
         token: access,
       }
     );
+    return access;
   } catch (error) {
-    await getNewCookie(refresh, setCookie, removeCookie, navigate);
-    return;
+    const newToken = await getNewCookie(
+      refresh,
+      setCookie,
+      removeCookie,
+      navigate
+    );
+    console.log(newToken);
+    return newToken;
   }
 };

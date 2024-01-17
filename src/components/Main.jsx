@@ -331,30 +331,42 @@ function Main() {
                   </ul>
                 </div>
               </div>
-              <button onClick={resetTime}>Сбросить время</button>
+              <div className="main__buttons">
+                <button onClick={resetTime} className="button button--reset">
+                  Сбросить время
+                </button>
+                <button onClick={sendDates} className="button button--reserve">
+                  Забронировать
+                </button>
+              </div>
             </div>
-
-            <input
-              onKeyDown={checkPhone}
-              type="tel"
-              name=""
-              id=""
-              ref={phoneRef}
-              placeholder="Введите номер телефона"
-            />
-            <input
-              onInput={checkTg}
-              onChange={checkTg}
-              type="text"
-              name=""
-              id=""
-              ref={tgRef}
-              placeholder="@telegram_nick"
-            />
-
-            <button onClick={sendDates}>Забронировать</button>
-            <button onClick={testFunc}>Тест</button>
-            <Link to="/admin">Admin panel</Link>
+            <div className="inputs-main">
+              <div className="input-block input-block--main">
+                <div className="input-text">Телефон:</div>
+                <input
+                  onKeyDown={checkPhone}
+                  type="tel"
+                  name=""
+                  id=""
+                  ref={phoneRef}
+                  placeholder="Введите номер телефона"
+                  className="input--phone"
+                />
+              </div>
+              <div className="input-block input-block--main">
+                <div className="input-text">Телеграм:</div>
+                <input
+                  onInput={checkTg}
+                  onChange={checkTg}
+                  type="text"
+                  name=""
+                  id=""
+                  ref={tgRef}
+                  placeholder="@telegram_nick"
+                  className="input--tg"
+                />
+              </div>
+            </div>
           </div>
         </>
       ) : (

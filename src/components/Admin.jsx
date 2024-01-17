@@ -11,26 +11,32 @@ import closeSvg from "../assets/close.svg";
 import okSvg from "../assets/ok.svg";
 import { postNewDataReservation } from "./postNewData";
 import { getProfile } from "./getProfile";
+import { deleteReservation } from "./deleteSelectReservation";
+import delSvg from "../assets/delete.svg";
+import editSvg from "../assets/edit.svg";
 
 function Admin() {
   const [cookie, setCookie, removeCookie] = useCookies(["auth"]);
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
   const start_dateRef = useRef(null);
   const end_dateRef = useRef(null);
   const phoneRef = useRef(null);
   const tgRef = useRef(null);
+  const delRef = useRef(null);
 
   const getReservations = async () => {
-    await checkCookie(
+    const newAccess = await checkCookie(
       cookie.access,
       cookie.refresh,
       setCookie,
       removeCookie,
       navigate
     );
-    const response = await getProfile(cookie.access);
+    const response = await getProfile(newAccess);
     const reservations = response.data.map((reservation) => {
       return {
         ...reservation,
@@ -47,11 +53,13 @@ function Admin() {
   };
   const closeModal = () => {
     setIsModal(false);
+    setModalEdit(false);
+    setModalDelete(false);
   };
   const saveData = async () => {
     setIsModal(false);
     setIsLoading(true);
-    await checkCookie(
+    const currentAccess = await checkCookie(
       cookie.access,
       cookie.refresh,
       setCookie,
@@ -65,21 +73,44 @@ function Admin() {
       phone: phoneRef.current.value,
       telegram: tgRef.current.value,
     };
-    const response = await postNewDataReservation(
+
+    await postNewDataReservation(
       start_dateRef.current.getAttribute("data-id"),
       newReservation,
-      cookie.access
+      currentAccess
     );
-    console.log(response);
+    closeModal();
+    await getReservations();
   };
 
   const changeData = (reservation) => {
+    setModalEdit(true);
     start_dateRef.current.value = reservation.start_date;
     start_dateRef.current.setAttribute("data-id", reservation.id);
     end_dateRef.current.value = reservation.end_date;
     phoneRef.current.value = reservation.phone;
     tgRef.current.value = reservation.telegram;
     setIsModal(true);
+  };
+
+  const deleteData = (reservation) => {
+    delRef.current.setAttribute("data-id", reservation.id);
+    setModalDelete(true);
+    setIsModal(true);
+  };
+  const deleteSelectData = async () => {
+    setIsModal(false);
+    setIsLoading(true);
+    const id = delRef.current.getAttribute("data-id");
+    const currentAccess = await checkCookie(
+      cookie.access,
+      cookie.refresh,
+      setCookie,
+      removeCookie,
+      navigate
+    );
+    await deleteReservation(id, currentAccess);
+    await getReservations();
   };
 
   const navigate = useNavigate();
@@ -128,12 +159,17 @@ function Admin() {
                     reservation.telegram ? reservation.telegram : "-"
                   }`}</div>
                   <div className="buttons">
-                    <button className="button button--del">del</button>
+                    <button
+                      className="button button--del"
+                      onClick={() => deleteData(reservation)}
+                    >
+                      <img src={delSvg} alt="" />
+                    </button>
                     <button
                       className="button button--del"
                       onClick={() => changeData(reservation)}
                     >
-                      Редактировать
+                      <img src={editSvg} alt="" />
                     </button>
                   </div>
                 </div>
@@ -150,7 +186,7 @@ function Admin() {
             isModal ? "modal__content--active" : ""
           }`}
         >
-          <div className="modal__edit">
+          <div className={`modal__edit ${!modalEdit ? "hidden" : ""}`}>
             <div className="modal__input-block">
               <span>Время заезда:</span>
               <input type="datetime-local" name="" id="" ref={start_dateRef} />
@@ -168,8 +204,14 @@ function Admin() {
               <input type="text" name="" id="" ref={tgRef} />
             </div>
           </div>
+          <div className={`modal__edit ${!modalDelete ? "hidden" : ""}`}>
+            <h2 ref={delRef}>Вы уверены, что хотите удалить бронирование?</h2>
+          </div>
           <div className="modal__buttons">
-            <button className="modal__confirm" onClick={saveData}>
+            <button
+              className="modal__confirm"
+              onClick={modalEdit ? saveData : deleteSelectData}
+            >
               <img src={okSvg} alt="" className="img-ok" />
             </button>
             <button
